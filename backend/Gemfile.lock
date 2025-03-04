@@ -31,11 +31,13 @@ GEM
       rack-protection (= 4.1.1)
       rack-session (>= 2.0.0, < 3)
       tilt (~> 2.0)
+    sinatra-cors (1.2.0)
     sqlite3 (2.0.4-arm64-darwin)
     tilt (2.6.0)
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-23
 
 DEPENDENCIES
   puma
@@ -43,6 +45,7 @@ DEPENDENCIES
   sequel
   shotgun
   sinatra
+  sinatra-cors
   sqlite3
 
 BUNDLED WITH
