@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import RoutineTask from "../components/RoutineTask";
 import Avatar from "../components/Avatar";
 import {DndContext} from '@dnd-kit/core';
+import VideoEmbed from "../components/VideoEmbed";
 // useeffect to load the routine from https://19c0ad2a-57e8-4f90-983b-e1d200311393.mock.pstmn.io
 
 
@@ -14,6 +15,7 @@ function RoutinePage() {
     const [currentTime, setCurrentTime] = useState('');
     const [remainingTimeInSeconds, setRemainingTimeInSeconds] = useState(0);
     const [totalTime, setTotalTime] = useState(0);
+    const [isComplete, setIsComplete] = useState(false);
 
     useEffect(() => {
         setCurrentTime(formatTime(remainingTimeInSeconds));
@@ -29,6 +31,7 @@ function RoutinePage() {
     
     const setData = (data: Routine) => {
         setRoutine(data);
+        setIsComplete(data.status === "complete");
         setTotalTime(data.total_time * 60);
         setRemainingTimeInSeconds(data.total_time * 60);
     }
@@ -41,7 +44,7 @@ function RoutinePage() {
 
     const [routine, setRoutine] = useState<Routine | null>(null);
     useEffect(() => {
-        fetch('https://19c0ad2a-57e8-4f90-983b-e1d200311393.mock.pstmn.io/routine/1')
+        fetch('https://19c0ad2a-57e8-4f90-983b-e1d200311393.mock.pstmn.io/routine/1/start')
             .then(response => response.json())
             .then(data => setData(data));
     }, [])
@@ -73,10 +76,8 @@ function RoutinePage() {
         return acc;
     }, {} as Record<number, boolean>) : {};
 
-    console.log({kidsCompletionMap})
 
-
-    return routine ? <div className="flex flex-col items-center">
+    return routine ? isComplete ? <VideoEmbed link={routine.reward.link} /> : <div className="flex flex-col items-center">
         <Timer time={currentTime} />
         <h2 className="my-8">Current Routine: {routine.name}</h2>
         <DndContext onDragEnd={handleDragEnd}>

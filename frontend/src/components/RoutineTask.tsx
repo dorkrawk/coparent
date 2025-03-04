@@ -35,7 +35,6 @@ const RoutineTask = ({name, image_file, id, state, kids_completed, kids}: Routin
                 <h2 className="card-title justify-center">{name}</h2>
                 <div className="card-actions justify-center">
                     <CompletionStatus kids_completed={kids_completed} kids={kids} />
-                    {/* <button className="btn btn-primary" onClick={() => console.log(`Completing task ${id}`)}>Complete Task</button> */}
                 </div>
             </div>
         </div>
