@@ -25,6 +25,8 @@ DB.create_table? :routine_tasks do
   String :name, null: false
   Integer :routine_id
   Integer :buffer_time
+  String :filter
+  String :filter_value
   String :image_file
   String :audio_file
   String :kids_completed, text: true

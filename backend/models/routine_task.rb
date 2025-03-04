@@ -19,7 +19,7 @@ class RoutineTask < Sequel::Model(:routine_tasks)
   end
 
   def all_kids_complete?
-    kids_completed_arr == routine.kid_ids
+    kids_completed_arr.sort == routine.kid_ids.sort
   end
 
   def complete_for_kid!(kid_id)
