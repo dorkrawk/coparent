@@ -2,21 +2,42 @@ require 'sinatra/base'
 require 'sequel'
 require 'json'
 
-require_relative "db/config"
+# require_relative "db/config"
 
 Dir["./models/*.rb"].each {|file| require file }
 
 class App < Sinatra::Base
-  # before do
-  #   content_type :json
-  # end
-
-  get '/' do
-    tasks = DB[:tasks]
-    "tasks: #{tasks.all.count}"
+  before do
+    content_type :json
   end
 
-  get '/tasks/:id' do
+  get '/' do
+    "Coparent!"
+  end
+
+  get '/routine/:id' do
+
+  end
+
+  put '/routine/:id/start' do
+    routine_id = params[:id]
+
+    routine = Routine[routine_id]
+
+    if routine
+
+    else
+      status 404 
+      { error: "Routine not found" }.to_json
+    end
+  end
+
+  put '/routine_task/:id/complete' do
+
+  end
+
+
+  get '/routine/:id' do
     content_type :json
 
     task_id = params[:id]
