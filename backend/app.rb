@@ -25,7 +25,7 @@ class App < Sinatra::Base
     routine = Routine[routine_id]
 
     if routine
-
+      routine.response_values.to_json
     else
       status 404 
       { error: "Routine not found" }.to_json
@@ -33,7 +33,30 @@ class App < Sinatra::Base
   end
 
   put '/routine_task/:id/complete' do
+    content_type :json
 
+    routine_task_id = params[:id]
+    routine_task = RoutineTask[routine_task_id]
+    
+    if routine_task
+      begin
+        data = JSON.parse(request.body.read)
+        routine_task.complete_for_kid!(data["kid_id"])
+        routine_task.refresh
+
+        response_body = routine_task.values
+        response_body[:routine_status] = routine_task.routine.status
+
+        response_body.to_json
+      rescue JSON::ParserError
+        status 400
+        { error: "Invalid JSON format" }.to_json
+      rescue Sequel::ValidationFailed => e
+        status 422
+        { error: e.message }.to_json
+      end
+    else 
+    end
   end
 
 
