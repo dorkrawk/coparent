@@ -23,7 +23,7 @@ const Avatar: React.FC<AvatarProps> = ({ image_file, name, id, isComplete }) => 
 
     return (
         <button 
-            className="ring-primary ring-offset-base-100 rounded-full ring ring-offset-2"  
+            className="ring-primary ring-offset-base-100 rounded-full ring ring-offset-2 z-10"  
             ref={setNodeRef} 
             style={style} 
             {...(!isComplete && listeners)} 

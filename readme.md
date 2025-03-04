@@ -9,3 +9,10 @@ cd frontend
 npm install
 npm run dev
 ```
+
+## Getting backend things going
+
+To run it locally:
+`ruby app.rb`
+or
+`shotgun app.rb`
