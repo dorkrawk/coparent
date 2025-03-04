@@ -1,7 +1,7 @@
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
-import Routine from './pages/Routine';
+import RoutinePage from './pages/Routine';
 import Layout from './components/Layout';
 
 const router = createBrowserRouter([
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'routine',
-        element: <Routine />,
+        element: <RoutinePage />,
       },
     ],
   },
