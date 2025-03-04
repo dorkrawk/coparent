@@ -1,14 +1,30 @@
 require 'sinatra/base'
 require 'sequel'
 require 'json'
+require 'sinatra/cors'
 
 # require_relative "db/config"
 
 Dir["./models/*.rb"].each {|file| require file }
 
 class App < Sinatra::Base
+  set :allow_origin, '*'
+  set :allow_methods, 'GET,HEAD,POST,OPTIONS,PUT,PATCH,DELETE'
+  set :allow_headers, 'content-type, if-modified-since, authorization'
+  set :expose_headers, 'location, link'
+
   before do
     content_type :json
+    response.headers['Access-Control-Allow-Origin'] = '*'  # Allow all origins
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+  end
+
+  options '*' do
+    response.headers['Access-Control-Allow-Origin'] = '*'  # Allow all origins
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    200
   end
 
   get '/' do

@@ -19,8 +19,6 @@ const CompletionStatus: React.FC<CompletionStatusProps> = ({kids, kids_completed
             isComplete: kids_completed.includes(kid.id),
         };
     });
-    console.log({kidsWithCompletion})
-
     return (
         <div>
             {kidsWithCompletion.map((kid) => (

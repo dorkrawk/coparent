@@ -6,14 +6,19 @@ import Button from "../components/Button";
 import RoutineTask from "../components/RoutineTask";
 import Avatar from "../components/Avatar";
 import {DndContext} from '@dnd-kit/core';
+import VideoEmbed from "../components/VideoEmbed";
 // useeffect to load the routine from https://19c0ad2a-57e8-4f90-983b-e1d200311393.mock.pstmn.io
 
 
 
 function RoutinePage() {
+    const [routine, setRoutine] = useState<Routine | null>(null);
     const [currentTime, setCurrentTime] = useState('');
     const [remainingTimeInSeconds, setRemainingTimeInSeconds] = useState(0);
     const [totalTime, setTotalTime] = useState(0);
+    const [isComplete, setIsComplete] = useState(false);
+    const [parent, setParent] = useState<number | null>(null);
+    const [drop, setDrop] = useState<number | null>(null);
 
     useEffect(() => {
         setCurrentTime(formatTime(remainingTimeInSeconds));
@@ -29,6 +34,7 @@ function RoutinePage() {
     
     const setData = (data: Routine) => {
         setRoutine(data);
+        setIsComplete(data.status === "complete");
         setTotalTime(data.total_time * 60);
         setRemainingTimeInSeconds(data.total_time * 60);
     }
@@ -39,24 +45,30 @@ function RoutinePage() {
         return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
     };
 
-    const [routine, setRoutine] = useState<Routine | null>(null);
+    
     useEffect(() => {
-        fetch('https://19c0ad2a-57e8-4f90-983b-e1d200311393.mock.pstmn.io/routine/1')
+        fetch('http://127.0.0.1:4567/routine/1/start', {method: "PUT", mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json',
+            }})
             .then(response => response.json())
             .then(data => setData(data));
     }, [])
 
     useEffect(() => {
-        // Submit complete task
-        // Reset
-        if (parent) {
-            setParent(null)
-        }
+        fetch(`http://127.0.0.1:4567/routine_task/${parent}/complete`, {method: "PUT", mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({kid_id: drop})})
+            .then(response => response.json())
+            .then(data => setData(data));
 
-    }, [])
+        setParent(null);
+        setDrop(null);
+    }, [parent, drop])
 
-    const [parent, setParent] = useState<number | null>(null);
-    const [drop, setDrop] = useState<number | null>(null);
+    
 
     
     function handleDragEnd(event: DragEndEvent) {
@@ -67,26 +79,24 @@ function RoutinePage() {
     }
 
     // Make a map of kids to see if they are complete based on if their ID is in the `kids_completed` array of every routine task
-    const kidsCompletionMap = routine ? routine.kids.reduce((acc, kid) => {
-        const isComplete = routine.routine_tasks.every(task => task.kids_completed.includes(kid.id));
+    const kidsCompletionMap = routine?.kids ? routine.kids.reduce((acc, kid) => {
+        const isComplete = routine.routine_tasks.every(task => task.kids_completed.split(",").map(item => Number(item)).includes(kid.id));
         acc[kid.id] = isComplete;
         return acc;
     }, {} as Record<number, boolean>) : {};
 
-    console.log({kidsCompletionMap})
 
-
-    return routine ? <div className="flex flex-col items-center">
+    return routine ? isComplete ? <VideoEmbed link={routine.reward?.link} /> : <div className="flex flex-col items-center">
         <Timer time={currentTime} />
         <h2 className="my-8">Current Routine: {routine.name}</h2>
         <DndContext onDragEnd={handleDragEnd}>
             <div className="flex justify-around w-50">
-                {routine.kids.map(kid => {
+                {routine.kids?.map(kid => {
                     return <Avatar key={kid.id} name={kid.name} image_file={kid.image_file} id={kid.id} isComplete={kidsCompletionMap[kid.id]} />
                 })}
             </div>
             <div className="flex flex-row justify-around w-full my-16">
-                {routine.routine_tasks.map(task => {
+                {routine.routine_tasks?.map(task => {
                     return <RoutineTask key={task.id} name={task.name} image_file={task.image_file} id={task.id} kids={routine.kids} kids_completed={task.kids_completed} state={task.status} />
                 })}
             </div>

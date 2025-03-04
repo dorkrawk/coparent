@@ -11,7 +11,7 @@ export interface RoutineTask {
     image_file: string;
     name: string;
     status: string;
-    kids_completed: Array<number>;
+    kids_completed: string;
 }
 
 export interface Routine {

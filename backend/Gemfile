@@ -5,7 +5,11 @@ gem 'sqlite3'
 gem 'sequel'
 gem 'puma'
 gem 'rackup'
+<<<<<<< HEAD
 gem 'dotenv'
+=======
+gem 'sinatra-cors'
+>>>>>>> 0451c013b673ffbeb51b0af154a586331d95a383
 
 group :development do
   gem 'shotgun'  # reloads app code so I don't have to restart Sinatra all the time
