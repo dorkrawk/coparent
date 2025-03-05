@@ -56,20 +56,22 @@ function RoutinePage() {
     }, [])
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:4567/routine_task/${parent}/complete`, {method: "PUT", mode: 'cors',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({kid_id: drop})})
-            .then(response => response.json())
-            .then(data => setData(data));
+        if (parent && drop) {
+            fetch(`http://127.0.0.1:4567/routine_task/${parent}/complete`, {method: "PUT", mode: 'cors',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({kid_id: drop, remaining_time_in_seconds: remainingTimeInSeconds, routine_id: routine?.id})})
+                .then(response => response.json())
+                .then(data => {
+                    setRoutine(data)
+                    setIsComplete(data.status === "complete");
+                });
 
+        }   
         setParent(null);
         setDrop(null);
     }, [parent, drop])
-
-    
-
     
     function handleDragEnd(event: DragEndEvent) {
         const { over, active } = event;

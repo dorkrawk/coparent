@@ -8,15 +8,16 @@ interface KidsWithCompletion extends Kid {
 
 interface CompletionStatusProps {
     kids: Array<Kid>;
-    kids_completed: Array<number>;
+    kids_completed: string;
 }
 
 
 const CompletionStatus: React.FC<CompletionStatusProps> = ({kids, kids_completed}) => {
+    const arrayOfKidsCompleted = kids_completed.split(',').map((kid) => parseInt(kid));
     const kidsWithCompletion: Array<KidsWithCompletion> = kids.map((kid) => {
         return {
             ...kid,
-            isComplete: kids_completed.includes(kid.id),
+            isComplete: arrayOfKidsCompleted.includes(kid.id),
         };
     });
     return (

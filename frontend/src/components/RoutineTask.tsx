@@ -7,7 +7,7 @@ interface RoutineTaskProps {
     image_file: string;
     id: number;
     state: string;
-    kids_completed: Array<number>;
+    kids_completed: string;
     kids: Array<Kid>;
 }
 

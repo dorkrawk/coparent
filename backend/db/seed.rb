@@ -40,7 +40,7 @@ shoes = routine_tasks.insert(
   routine_id: get_out_the_door,
   buffer_time: 1,
   image_file: "shoes.jpg",
-  audio_file: "shoes.png",
+  audio_file: "shoes.jpg",
   kids_completed: "",
   status: "in_progress"
 )
@@ -49,8 +49,8 @@ backpack = routine_tasks.insert(
   name: "Grab your backpack. No you can't bring bring the cat to school.",
   routine_id: get_out_the_door,
   buffer_time: 3,
-  image_file: "backpack.png",
-  audio_file: "backpack.png",
+  image_file: "backpack.jpg",
+  audio_file: "backpack.jpg",
   kids_completed: "",
   status: "in_progress"
 )
@@ -61,8 +61,8 @@ umbrella = routine_tasks.insert(
   filter: "weather",
   filter_value: "rain",
   buffer_time: 3,
-  image_file: "umbrella.png",
-  audio_file: "umbrella.png",
+  image_file: "umbrella.jpg",
+  audio_file: "umbrella.jpg",
   kids_completed: "",
   status: "in_progress"
 )
@@ -73,8 +73,8 @@ coat = routine_tasks.insert(
   filter: "weather",
   filter_value: "cold",
   buffer_time: 3,
-  image_file: "coat.png",
-  audio_file: "coat.png",
+  image_file: "coat.jpg",
+  audio_file: "coat.jpg",
   kids_completed: "",
   status: "in_progress"
 )
@@ -83,8 +83,8 @@ water_bottle = routine_tasks.insert(
   name: "Grab your water bottle. Is it full?",
   routine_id: get_out_the_door,
   buffer_time: 3,
-  image_file: "water_bottle.png",
-  audio_file: "water_bottle.png",
+  image_file: "waterbottle.jpg",
+  audio_file: "water_bottle.jpg",
   kids_completed: "",
   status: "in_progress"
 )
@@ -95,8 +95,8 @@ sunscreen = routine_tasks.insert(
   filter: "weather",
   filter_value: "sunny",
   buffer_time: 3,
-  image_file: "sunscreen.png",
-  audio_file: "sunscreen.png",
+  image_file: "sunscreen.jpg",
+  audio_file: "sunscreen.jpg",
   kids_completed: "",
   status: "in_progress"
 )
